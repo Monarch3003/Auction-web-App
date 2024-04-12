@@ -1,0 +1,89 @@
+
+
+  <div class="container mx-auto py-8">
+    <h1 class="text-2xl flex justify-center mt-4 font-bold text-purple-900 pb-6">Property Upload</h1>
+    <div class="flex justify-center items-center mt-3">
+      <form action="/api/property/upload" method="POST" class="flex flex-col items-center">
+        <div class="flex flex-col mb-4">
+          <input type="text" name="propertyName" placeholder="Name your artefact" required
+            class="border border-gray-400 px-4 py-2 rounded-md mb-2 w-80">
+          <textarea name="propertyDescription" placeholder="Describe your online artefact..."
+            class="border border-gray-400 px-4 py-2 rounded-md mb-2 w-80 h-32 resize-none"></textarea>
+        </div>
+        <button type="submit"
+          class="bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 transition duration-200 w-80">Upload</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- overlay -->
+  <div id="overlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center hidden">
+    <!-- Overlay content -->
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <!-- Form -->
+        <form id="rechargeForm" method="POST" action="/api/auctions/createAuction">
+            <label for="price" class="block mb-2">Enter amount to start Auction:</label>
+            <input type="number" id="price" name="price" class="border rounded-md px-4 py-2 mb-4 w-full">
+            <input type="hidden" id="propName" name="propertyName">
+            <input type="hidden" id="propID" name="propertyID">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+        </form>
+    </div>
+  </div>
+
+  <div class="container mx-auto">
+    <h2 class="text-2xl text-purple-500 font-bold mb-4">Recent Uploads</h2>
+
+    <div class="space-y-4">
+      <!-- Map sold items here (latest 3) -->
+      <% properties.forEach(property => { %>
+        <div class="p-4 bg-white border rounded-xl text-gray-800 space-y-2" id="properties">
+          <div class="flex justify-between">
+            <div class="text-gray-400 text-xs" id="propertyID"><%= property.propertyID %></div>
+            <div class="text-gray-400 text-xs">21d</div>
+          </div>
+          <a href="" id="propertyNameLink"  class="font-bold hover:text-yellow-800 hover:underline"
+            data-property-id="<%= property.propertyID %>"><%= property.propertyName %></a>
+          <div class="text-sm text-gray-600">
+            <%= property.propertyDescription %>
+          </div>
+          <% if(property.origin == 'UPLOADED') { %>
+            <button id=""  class="auctionProperty bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Auction</button>
+          <% } else if (property.origin == 'BOUGHT') { %>
+              <div class="mt-10 mb-3">
+                <a href="/api/property/download/<%= property.propertyID %>" id=""  class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Download</a>
+              </div>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+<script>
+    
+    const auctionProperty = document.querySelectorAll('.auctionProperty');
+    const propertyIDForm = document.getElementById('propID');
+    const propertyIDDOM = document.getElementById('propertyID');
+    const propertyName = document.getElementById('propName');
+
+    auctionProperty.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const propertyNameLink = this.parentElement.querySelector('#propertyNameLink'); 
+            // console.log(propertyNameLink.innerText);
+            console.log(propertyIDDOM.innerText);
+            propertyName.value = propertyNameLink.innerText;
+            propertyIDForm.value = propertyIDDOM.innerText;
+            toggleDisplay();
+        });
+    });
+
+    function toggleDisplay() {
+        console.log('Toggling display...');
+        var overlay = document.getElementById('overlay');
+        overlay.classList.toggle('hidden');
+    }
+
+
+ 
+</script>

@@ -1,0 +1,15 @@
+<%- include('./partials/head.ejs') %>
+
+<div class="container mx-auto my-8 flex justify-center">
+    <div id="makeTransactionOverlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
+        <!-- Overlay content -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <!-- Form -->
+            <form id="transactionForm" method="POST" action="/api/transactions/complete">
+                
+                <button type="submit"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Approve Funds Transfer</button>
+            </form>
+        </div>
+      </div>
+</div>
+

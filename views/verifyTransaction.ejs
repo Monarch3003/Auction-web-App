@@ -1,0 +1,19 @@
+<%- include('./partials/head.ejs') %>
+
+<div class="container mx-auto my-8 flex justify-center">
+    <div id="verifyTransactionOverlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
+        <!-- Overlay content -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <!-- Form -->
+            <form id="transactionForm" enctype="multipart/form-data" method="POST" action="/api/transactions/verify">
+                <label for="file" class="block mb-2">Upload the auctioned Property</label>
+                <input type="file" id="file" name="file" class="border rounded-md px-4 py-2 mb-4 w-full">
+                <input type="hidden" id="verifyTxID" name="transactionID">
+                <input type="hidden" id="bidderID" name="bidderID">
+                
+                <button type="submit"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Complete Transaction</button>
+            </form>
+        </div>
+    </div>
+</div>
+

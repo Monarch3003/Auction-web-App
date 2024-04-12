@@ -1,0 +1,15 @@
+
+POST http://localhost:3500/api/user/signup
+Content-Type: "application/json"
+
+{
+    "fullName": "Amon Victor",
+    "email": "blablah@gmail.com",
+    "password": "Natural",
+    "phoneNumber":"+2543456787656",
+    
+}
+
+###
+
+GET http://localhost:3500/api/auctions/viewAuctions HTTP/1.1

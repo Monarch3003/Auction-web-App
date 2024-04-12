@@ -1,0 +1,96 @@
+<div class="">
+    <div class="container mx-auto py-8">
+        <h1 class="text-2xl text-center mt-4 font-bold text-purple-900 pb-6">Bids</h1>
+    </div>
+    <div class="container mx-auto">
+        <div class="space-y-4">
+            <% if (error == true) { %>
+                <div class="container mx-auto my-8 flex justify-center">
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md shadow-md" role="alert">
+                        <strong class="font-bold">Error:</strong>
+                        <span class="block sm:inline"><%= message %></span>
+                    </div>
+                </div>
+                
+            <% } else { %>
+            <% bids.forEach(bid => { %>
+                <div class="p-4 bg-white border rounded-xl text-gray-800 space-y-2">
+                    <div class="flex justify-between">
+                        <div class="text-gray-400 text-xs">Auction ID: <span id="auctionID" class="updates"><%= bid.auctionID %></span></div>
+                        <div class="text-gray-400 text-xs">Bidder: <span id="bidderID" class="updates"><%= bid.currentBidder %></span></div>
+                    </div>
+                    
+                    <div class="text-gray-400 font-bold text-xs updates" >Bid Price: $<span id="bidPrice"><%= bid.currentBidPrice %></span></div>
+                    <div class="text-sm text-gray-600 flex items-center">
+                    <a href="/api/bid/viewBids?auctionID=<%= bid.auctionID %>" class="font-bold hover:text-yellow-800 hover:underline bidList updates" auction-id="<%= bid.auctionID %>" id="bidderID"><%= bid.currentBidder %></a>
+                    </div>
+                    <div class="text-gray-400 text-xs updates" >Bids: <span id="bidCount"><%= bid.bidCount %></span></div>
+                </div>
+                <% }) %>
+            <% } %>
+        </div>
+          
+    </div>
+
+    <div class="container mx-auto flex justify-center mt-5">
+        <form action="/api/bid/openBid" method="post"
+            class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
+                    Price
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="price" type="number" placeholder="Enter price" name="price" required>
+                <!-- <input type="hidden" id="form-auction-id" name="auctionID"> -->
+            </div>
+
+            <div class="flex items-center justify-center">
+                <button
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">
+                    Submit Bid
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+
+    let auctionID = null ;
+
+    document.querySelectorAll('.bidList').forEach(function(bid) {
+        auctionID = bid.getAttribute('auction-id');
+        // document.getElementById('form-auction-id').value = auctionID;
+    });
+    function updateBids() {
+        // $('.updates').empty();
+        $.ajax({
+            url: `/api/bid/updateBids?auctionID=${auctionID}`,
+            method: "GET",
+            success: function(res) {
+                console.log(res);
+                
+                $.each(res, function(index, bid) {
+                    $('#auctionID').text(bid.auctionID);
+                    $('#bidderID').text(bid.currentBidder);
+                    $('#bidPrice').text(bid.currentBidPrice);
+                    $('#bidCount').text(bid.bidCount);
+                });
+                
+            },
+            function(xhr, status, error) {
+                console.error('Error fetching bid data:', error);
+            }
+        });
+    }
+
+    // updateBids();
+    setInterval(updateBids, 5000);
+
+
+</script>
+  
