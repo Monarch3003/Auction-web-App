@@ -47,4 +47,24 @@ async function createAuction(req, res, price, propID, propertyName) {
     // mongoose.connection.close();
 }
 
-export {createAuction, viewAuctions};
+async function search(req, res) {
+    try {
+        const {search} = req.query;
+
+        const query = {
+            name: {
+                $regex: new RegExp(search, "i")
+            }
+        }
+
+        const result = await auctionModel.find(query);
+
+        res.json(result);
+
+    } catch(err) {
+        console.log("Error Fetching documents: ", err);
+    }
+    
+}
+
+export {createAuction, viewAuctions, search};

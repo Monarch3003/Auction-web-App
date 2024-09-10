@@ -1,12 +1,91 @@
 <%- include('partials/head.ejs') %>
 
 <div class="container mx-auto py-8">
-    <h1 class="text-2xl flex justify-center mt-4 font-bold text-purple-900 pb-6">Account</h1>  
+    <!-- <h1 class="text-2xl flex justify-center mt-4 font-bold text-purple-900 pb-6">Account</h1>   -->
 
-  <div class="container mx-auto">
-    
+    <div class="container mx-auto mb-5">
+      <h2 class="text-2xl text-purple-500 font-bold mb-4">Account Details</h2>
+      <% const {userID, fullName, email, phoneNumber} = account %>
+      <div class="space-y-4">
+          <div class="p-4 bg-white border rounded-xl text-gray-800 space-y-2">
+            <div class="flex justify-between">
+              <div class="text-gray-400 text-xs"></div>
+              <div class="text-gray-400 text-xs"></div>
+            </div>
+            <div class="text-sm text-gray-600">
+                <p>ID: <%= userID %></p>
+                <p>Full Name: <%= fullName %></p>
+                <p>Email Address: <%= email %></p>
+                <p>Phone Number: <%= phoneNumber %></p>
+            </div>
 
-  </div>
+          </div>
+      </div>
+    </div>
+    <div class="container mx-auto mb-5">
+        <h2 class="text-2xl text-purple-500 font-bold mb-4">Update Phone Number</h2>
+        <div class="space-y-4">
+            <div class="p-4 bg-white border rounded-xl text-gray-800 space-y-2 flex justify-center">
+              <div class="flex justify-between">
+                <div class="text-gray-400 text-xs"></div>
+                <div class="text-gray-400 text-xs"></div>
+              </div>
+              
+              <form action="/api/user/updatePhone" method="post"
+              class="bg-white shadow-sm rounded px-8 pt-6 pb-8 mb-4 max-w-md">
+              <div class="mb-4">
+                  <label class="block text-gray-700 text-sm font-bold mb-2" for="phoneNumber">
+                      phone Number
+                  </label>
+                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="phoneNumber" type="tel" placeholder="2547--------" name="newPhone" required>
+                  <!-- <input type="hidden" id="form-auction-id" name="auctionID"> -->
+              </div>
+
+              <div class="flex items-center justify-center">
+                  <button
+                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      type="submit">
+                      Update
+                  </button>
+              </div>
+          </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto">
+      <h2 class="text-2xl text-purple-500 font-bold mb-4">Update Password</h2>
+      <div class="space-y-4">
+          <div class="p-4 bg-white border rounded-xl text-gray-800 space-y-2 flex justify-center">
+            <div class="flex justify-between">
+              <div class="text-gray-400 text-xs"></div>
+              <div class="text-gray-400 text-xs"></div>
+            </div>
+            
+            <form action="/api/user/updatePassword" method="post"
+            class="bg-white shadow-sm rounded px-8 pt-6 pb-8 mb-4 max-w-md">
+              <div class="mb-4">
+                  <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                      New Password
+                  </label>
+                  <input
+                      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="password" type="password" placeholder="Enter new password" name="newPassword" required>
+                  <!-- <input type="hidden" id="form-auction-id" name="auctionID"> -->
+              </div>
+
+              <div class="flex items-center justify-center">
+                  <button
+                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      type="submit">
+                      Update Password
+                  </button>
+              </div>
+            </form>
+          </div>
+      </div>
+    </div>
 
 </div>
 

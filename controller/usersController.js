@@ -16,7 +16,7 @@ import userModel from '../models/usersModel.js';
 
 async function displayAccountDetails(req, res) {
 
-    const {email} = req.session();
+    const {email} = req.session;
     const uid = await cfg.userID(email);
     const account = await userModel.findOne({userID: uid}).select().exec();
 
@@ -68,7 +68,7 @@ async function login(req, res) {
 async function updatePassword (req,res){
     const saltRounds = 10;
     const {email} = req.session;
-    const uid = cfg.userID(email);
+    const uid = await cfg.userID(email);
     const {newPassword} = req.body;
 
     bcrypt.hash(newPassword, saltRounds, async (err, hash) => {
@@ -77,6 +77,16 @@ async function updatePassword (req,res){
         res.render('updatePasswordSuccess', {heading: 'Success', route: 'dashboard', message: 'Password complete ,you can now login with your account details'})    
     });
 
+    
+}
+
+async function updatePhone (req, res){
+    const {email} = req.session;
+    const uid = await cfg.userID(email);
+    const {newPhone} = req.body;
+
+    await userModel.findOneAndUpdate({userID: uid}, {phoneNumber: newPhone});
+    res.render('updatePhoneSuccess', {heading: 'Success', route: 'dashboard', message: 'You have successfully updated your phone number'});
     
 }
 
@@ -94,4 +104,4 @@ function logout (req,res){
 }
 
 
-export {signup, login, updatePassword, logout, displayAccountDetails};
+export {signup, login, updatePassword, updatePhone, logout, displayAccountDetails};

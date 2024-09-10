@@ -7,7 +7,6 @@ import { buyerApprove, sellerApprove, updateApprovalStatus } from './approvalsCo
 
 import transactionModel from '../models/transactionsModel.js';
 import bidsModel from '../models/bidsModel.js';
-import transactionsModel from '../models/transactionsModel.js';
 
 const db = cfg.connectDB();
 db.on('error', (err) => {
@@ -111,7 +110,7 @@ async function verifyTransaction(req, res, transactionID) {
 }
 
 async function getTxStatus(auctionID) {
-    const tx = await transactionsModel.findOne({auctionID: auctionID}).select().exec();
+    const tx = await transactionModel.findOne({auctionID: auctionID}).select().exec();
     // tx.forEach(transaction => {
     //     return transaction.status;
     // });

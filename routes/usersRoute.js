@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 
-import {signup, login, updatePassword, displayAccountDetails,logout} from '../controller/usersController.js';
+import {signup, login, updatePassword, updatePhone, displayAccountDetails, logout} from '../controller/usersController.js';
 
 const router = express.Router();
 
@@ -16,8 +16,9 @@ router.post('/login', login);
 
 router.get('/account', displayAccountDetails)
 
-router.patch('/update', updatePassword);
+router.post('/updatePassword', updatePassword);
 
+router.post('/updatePhone', updatePhone);
 
 router.get('/logout', logout);
 

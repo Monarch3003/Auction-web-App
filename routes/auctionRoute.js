@@ -1,6 +1,6 @@
 import express from 'express';
 
-import {createAuction, viewAuctions} from '../controller/auctionsController.js';
+import {createAuction, viewAuctions, search} from '../controller/auctionsController.js';
 
 const router = express.Router();
 
@@ -14,5 +14,7 @@ router.post('/createAuction', (req, res) => {
 router.get('/market', (req, res) => {
     viewAuctions(req, res);
 });
+
+router.get('/search', search);
 
 export default router;

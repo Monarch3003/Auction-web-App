@@ -24,11 +24,11 @@ async function updateAuctionStatus() {
     
     // console.log(auctions);
     auctions.forEach(async auction => {
+        const bids = await bidsModel.find({auctionID: auction.auctionID}).select().exec();
+        let lastBidCount = bids.bidCount;
         if(auction.status == "OPEN") {
             await auctionModel.updateOne({status: 'OPEN'}, {status: "CLOSED"});
             console.log("Updated");
-
-            const bids = await bidsModel.find({auctionID: auction.auctionID}).select({currentBidder: 1}).exec();
 
             await createTransaction({
                 transactionID: txID,
@@ -44,7 +44,7 @@ async function updateAuctionStatus() {
             });
 
             
-            const jobEvery5Minutes = schedule.scheduleJob('*/5 * * * *', async function() {
+            const jobEvery5Minutes = schedule.scheduleJob('*/2 * * * *', async function() {
                 console.log('[*EVERY 5 Minutes]: Approving Transactions Status.');
                 await updateApprovalStatus(txID);
                 // Add your code here for the task every 5 minutes
@@ -81,8 +81,8 @@ async function closeDeal(auctionID) {
         const status = await getTxStatus(auctionID);
         if(status == "COMPLETED") {
             await changeOwner(auctionID);
-            await deleteBids(auctionID);
-            deleteAuction(auctionID);
+            // await deleteBids(auctionID);
+            // deleteAuction(auctionID);
         }
     }
 }
